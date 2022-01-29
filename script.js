@@ -88,28 +88,55 @@ const run = new Move({
 
 class Click {
   constructor(obj) {
-    this.button = document.querySelectorAll(obj.btn);
 
-    this.button.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        this.box = document.querySelector(obj.box);
+    this.parent = document.querySelector(obj.header);
+    this.box = document.querySelector(obj.box)
 
-        this.nav = document.querySelector(obj.nav);
+    document.body.addEventListener('click' ,(e)=>{
+      if(e.target.className == 'open'){
+        this.box.classList.add('active')
+      }else if(e.target.className == 'close' ||e.target.className != 'header__menu-content active'){
+        this.box.classList.remove('active')
+      }else{
+       
+      }       
+    })
 
-        this.nav.classList.toggle("active");
-        this.nav.classList.add("transition");
-        setTimeout(()=>{
-            this.nav.classList.remove("transition");
-        },500)
-
-        this.box.classList.toggle("active");
-
-      });
-    });
   }
 }
+
+
+class Print {
+  constructor(text) {
+    this.text = document.querySelector(text)  
+    this.word = this.text.innerHTML.split('')
+    this.text.innerHTML ='';
+    this.i = 0;
+    this.addWord()
+
+}
+  addWord(){
+
+    this.text.innerHTML += `${this.word[this.i]}`
+
+    this.i += 1
+    
+    if(this.i < this.word.length){
+      setTimeout(()=>{
+        this.addWord()
+      },100)
+    }
+  }
+}
+
+const print = new Print(
+  text='.header__content h1')
+
 const click = new Click({
-  btn: ".btn",
+
   box: ".header__menu-content",
   nav: ".header__nav",
+  header:'.header'
 });
+
+
